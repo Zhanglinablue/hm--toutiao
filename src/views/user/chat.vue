@@ -1,10 +1,10 @@
 <template>
-  <div>主页 </div>
+  <div>小智同学</div>
 </template>
 
 <script>
 export default {
-  name: 'home'
+  name: 'chat'
 }
 </script>
 

@@ -1,10 +1,10 @@
 <template>
-  <div>主页 </div>
+  <div>搜索结果</div>
 </template>
 
 <script>
 export default {
-  name: 'home'
+  name: 'searchResult'
 }
 </script>
 

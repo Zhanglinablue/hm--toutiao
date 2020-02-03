@@ -1,10 +1,10 @@
 <template>
-  <div>主页 </div>
+  <div>编辑资料</div>
 </template>
 
 <script>
 export default {
-  name: 'home'
+  name: 'profile'
 }
 </script>
 
