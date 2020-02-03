@@ -2,6 +2,7 @@
 import axios from 'axios'// 引入axios
 import JSONBig from 'json-bigint'// 处理大数字插件
 import store from '@/store'// 引入vuex中的store实例
+import router from '@router'
 // 创建一个新的 插件实例
 const instance = axios.create({
   baseURL: 'http://ttapi.research.itcast.cn/app/v1_0',
@@ -32,7 +33,34 @@ instance.interceptors.response.use(function (response) {
   } catch (error) {
     return response.data
   }
-}, function (error) {
+//   错误的时候token容易失效
+}, async function (error) {
+  if (error.response && error.response.status === 401) {
+    let toPath = { path: '/login', query: { redirectUrl: router.currentRoute.path } }
+    if (store.state.user.refresh_token) {
+      try {
+        let result = await axios({
+          medthod: 'put',
+          url: 'http://ttapi.research.itcast.cn/app/v1_0/authorizations',
+          header: {
+            Authorization: `Bearer ${store.state.user.refresh_token}`
+          }
+        })
+        store.commit('updateUser', {
+          user: {
+            token: result.data.data.token,
+            refresh_token: store.state.user.refresh_token
+          }
+        })
+        return instance(error.config)
+      } catch (error) {
+        store.commit('clearUser')
+        router.push(toPath)
+      }
+    } else {
+      router.push(toPath)
+    }
+  }
   return Promise.reject(error)
 })
 export default instance
