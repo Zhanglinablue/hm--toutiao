@@ -2,7 +2,7 @@
 import axios from 'axios'// 引入axios
 import JSONBig from 'json-bigint'// 处理大数字插件
 import store from '@/store'// 引入vuex中的store实例
-import router from '@router'
+import router from '@/router'
 // 创建一个新的 插件实例
 const instance = axios.create({
   baseURL: 'http://ttapi.research.itcast.cn/app/v1_0',
