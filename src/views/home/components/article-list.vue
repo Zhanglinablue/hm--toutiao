@@ -47,7 +47,15 @@ export default {
       upLoading: false,
       finished: false,
       articles: [],
-      refreshSuccessText: ''
+      refreshSuccessText: '',
+      timestamp: null
+    }
+  },
+  props: {
+    channel_id: {
+      type: Number,
+      required: true,
+      defalut: null
     }
   },
   methods: {
