@@ -20,7 +20,7 @@ const instance = axios.create({
 // 请求拦截器  注入token
 instance.interceptors.request.use(function (config) {
   if (store.state.user.token) {
-    config.header['Authorization'] = `Bearer ${store.state.user.token}`
+    config.headers['Authorization'] = `Bearer ${store.state.user.token}`
   }
   return config
 }, function (error) {
@@ -42,7 +42,7 @@ instance.interceptors.response.use(function (response) {
         let result = await axios({
           medthod: 'put',
           url: 'http://ttapi.research.itcast.cn/app/v1_0/authorizations',
-          header: {
+          headers: {
             Authorization: `Bearer ${store.state.user.refresh_token}`
           }
         })
