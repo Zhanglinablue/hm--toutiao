@@ -1,12 +1,19 @@
 <template>
   <div class="scroll-wrapper">
-      <van-list
-      v-model="upLoading"
-      :finished="finished"
-      finished-text="没有了"
-       @load="onLoad">
-       <van-cell v-for="article in articles" :key="article" :title="article"></van-cell>
-       </van-list>
+     <van-pull-refresh
+     v-model="downLoading"
+     @refresh="onRefresh"
+     :success-text="refreshSuccessText">
+     <van-list v-model="upLoading"
+     :finished="finished"
+     finished-text="没有了"
+     @load="onLoad">
+     <van-cell
+      v-for="article in articles"
+     :key="article"
+     :title="article"></van-cell>
+     </van-list>
+     </van-pull-refresh>
   </div>
 </template>
 
@@ -15,9 +22,11 @@ export default {
   name: 'article-list',
   data () {
     return {
+      downLoading: false,
       upLoading: false,
       finished: false,
-      articles: []
+      articles: [],
+      refreshSuccessText: ''
     }
   },
   methods: {
@@ -31,6 +40,16 @@ export default {
         } else {
           this.finish = true
         }
+      }, 1000)
+    },
+    // 下拉刷新方法
+    onRefresh () {
+      console.log('下拉刷新')
+      setTimeout(() => {
+        let arr = Array.from(Array(10), (value, index) => ('追加' + (index + 1)))
+        this.articles.unshift(...arr)
+        this.downLoading = false
+        this.refreshSuccessText = `更新了${arr.length}条数据`
       }, 1000)
     }
   }
